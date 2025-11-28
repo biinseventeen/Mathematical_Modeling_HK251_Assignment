@@ -49,6 +49,8 @@ class PetriNet:
             new_marking.add(p)
 
         return frozenset(new_marking)
+
+
 # ----------------------------------
 # TASK 1: PARSER (READING INPUT FILE)
 # ----------------------------------
@@ -101,6 +103,7 @@ def parse_pnml(file_path):
 
     return net
 
+
 # --------------------------
 # TASK 2: REACHABILITY (BFS)
 # -------------------------
@@ -126,5 +129,6 @@ def compute_reachability(net):
                 print(f"   Fire [{t}] -> New State: {set(next_m)}")
                 
     return visited, edges_count
+
 
 
