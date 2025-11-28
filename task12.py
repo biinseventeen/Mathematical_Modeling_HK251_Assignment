@@ -49,8 +49,9 @@ class PetriNet:
             new_marking.add(p)
 
         return frozenset(new_marking)
-
-# TASK 1: PARSER (READING INPUT FILE) 
+# ----------------------------------
+# TASK 1: PARSER (READING INPUT FILE)
+# ----------------------------------
 def parse_pnml(file_path):
     if not os.path.exists(file_path):
         print(f"File '{file_path}' not found.")
@@ -100,7 +101,9 @@ def parse_pnml(file_path):
 
     return net
 
+# --------------------------
 # TASK 2: REACHABILITY (BFS)
+# -------------------------
 def compute_reachability(net):
     m0 = frozenset(net.initial_marking)
     queue = deque([m0])     
@@ -124,26 +127,4 @@ def compute_reachability(net):
                 
     return visited, edges_count
 
-# MAIN
-if __name__ == "__main__":
-    # input file
-    input_file = " " 
-    
-    print("TASK 1: READING INPUT FILE")
-    my_net = parse_pnml(input_file)
-    
-    if my_net:
-        print(f"Parsed successfully")
-        print(f"- Number of Places: {len(my_net.places)} {my_net.places}")
-        print(f"- Number of Transitions: {len(my_net.transitions)} {my_net.transitions}")
-        print(f"- Initial Marking: {my_net.initial_marking}") 
-        
-        if len(my_net.initial_marking) == 0:
-            print("Initial Marking is empty. Please check the input file!")
-        else:
-            print("\nTASK 2: REACHABILITY")
-            all_markings, total_edges = compute_reachability(my_net)
-            
-            print(f"\nFINAL RESULTS:")
-            print(f"Total states found: {len(all_markings)}") 
-            print(f"Total firing events: {total_edges}") 
+
