@@ -22,10 +22,7 @@ class IndexedPetriNet:
 
 
 def convert_to_indexed(net):
-    """
-    net: PetriNet (bản bạn đã implement)
-    return: IndexedPetriNet
-    """
+
     place_list = sorted(list(net.places))  
 
     transitions = []
