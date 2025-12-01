@@ -33,15 +33,6 @@ def convert_to_indexed(net):
     indexed = IndexedPetriNet(place_list, net.initial_marking, transitions)
     return indexed
 
-
-# =====================================================================
-#  Utility
-# =====================================================================
-
-def marking_to_string(m):
-    return "(" + ",".join(str(x) for x in m) + ")"
-
-
 # =====================================================================
 #  Task 3 – BDD Reachability
 # =====================================================================
