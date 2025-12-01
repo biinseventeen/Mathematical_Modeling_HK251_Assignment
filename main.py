@@ -1,18 +1,7 @@
 import time
 import argparse
-
-from task12 import (
-    parse_pnml,
-    compute_reachability,
-)
-
-from task34 import (
-    convert_to_indexed,
-    BDDReachability,
-    DeadlockDetector,
-)
-
-from task5 import ReachableOptimizer
+import random
+from task import parse_pnml, compute_reachability, convert_to_indexed, BDDReachability, DeadlockDetector, ReachableOptimizer
 
 
 def print_marking(marking, indexed_net):
@@ -95,8 +84,8 @@ def main():
 
     print("=== Task 5: Optimization over reachable markings ===")
 
-    weights = {p: 1 for p in indexed.place_list}
-    print("Vector trọng số c (mặc định = 1 cho mọi place):")
+    weights = {p: random.randint(1,100) for p in indexed.place_list}
+    print("Vector trọng số c (được khởi tạo ngẫu nhiên trong giá trị [1, 100]):")
     print(weights)
     print()
 
