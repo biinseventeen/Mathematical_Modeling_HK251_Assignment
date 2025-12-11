@@ -1,4 +1,4 @@
-# This assignment attempt to implement a 1-safe Petrinet, divided into 5 tasks:
+# This assignment attempts to implement a 1-safe Petrinet, divided into 5 tasks:
 
 1. Reading Petri-net info from a PMNL file
 2. Check for reachable markings using BFS
