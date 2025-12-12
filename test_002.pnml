@@ -19,5 +19,7 @@
     <arc id="a0" source="p0" target="t0" />
     <arc id="a1" source="t0" target="p1" />
     <arc id="a2" source="t0" target="p2" />
+
+    <!--Simple Fork - Split Pattern-->
   </net>
 </pnml>

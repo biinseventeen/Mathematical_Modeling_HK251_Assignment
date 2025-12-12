@@ -11,8 +11,8 @@ class PetriNet:
     def __init__(self):
         self.places = set()
         self.transitions = set()
-        self.pre = defaultdict(set)  # Transition -> Set of input places
-        self.post = defaultdict(set) # Transition -> Set of output places
+        self.pre = defaultdict(set)  
+        self.post = defaultdict(set) 
         self.initial_marking = set()
 
     def add_place(self, p_id):
@@ -22,7 +22,6 @@ class PetriNet:
         self.transitions.add(t_id)
 
     def add_arc(self, source, target):
-        # Place->Transition or Transition->Place
         if source in self.places and target in self.transitions:
             self.pre[target].add(source)
         elif source in self.transitions and target in self.places:
@@ -43,12 +42,10 @@ class PetriNet:
     def fire(self, current_marking, t):
         new_marking = set(current_marking)
 
-        # Consume tokens from input places
         for p in self.pre[t]:
             if p in new_marking:
                 new_marking.remove(p)
 
-        # Produce tokens in output places
         for p in self.post[t]:
             new_marking.add(p)
 
@@ -117,6 +114,7 @@ def compute_reachability(net):
     visited = set([m0])     
     edges_count = 0         
     
+    print_count = 0 
     print(f"Start traversing from M0: {set(m0)}")
     
     while queue:
@@ -130,7 +128,12 @@ def compute_reachability(net):
             if next_m not in visited:
                 visited.add(next_m)
                 queue.append(next_m)
-                print(f"   Fire [{t}] -> New State: {set(next_m)}")
+                if (print_count < 50):
+                    print(f"   Fire [{t}] -> New State: {set(next_m)}")
+                    print_count +=1
+                elif (print_count == 50):
+                    print("Output chỉ show 50 fires đầu tiên")
+                    print_count +=1
                 
     return visited, edges_count
 
@@ -167,122 +170,105 @@ def convert_to_indexed(net):
 # =====================================================================
 #  Task 3 – BDD Reachability
 # =====================================================================
-
 class BDDReachability:
     def __init__(self, net: IndexedPetriNet):
         self.net = net
         self.n = net.nPlaces
 
         self.bdd = _bdd.BDD()
-
-        self.bdd.declare(*[f"x{i}" for i in range(self.n)])
-        self.bdd.declare(*[f"xp{i}" for i in range(self.n)])
+        
+       
+        bdd_vars = []
+        for i in range(self.n):
+            bdd_vars.append(f"x{i}")   
+            bdd_vars.append(f"xp{i}")  
+        
+        self.bdd.declare(*bdd_vars)
 
         self.vars = [self.bdd.var(f"x{i}") for i in range(self.n)]
         self.vars_prime = [self.bdd.var(f"xp{i}") for i in range(self.n)]
 
+        self.identity_pairs = []
+        for i in range(self.n):
+            x = self.vars[i]
+            xp = self.vars_prime[i]
+            self.identity_pairs.append((x & xp) | (~x & ~xp))
+
+
         self.relR = self.build_transition_relation()
+       
 
     def marking_to_bdd(self, marking, prime=False):
-        """
-        Convert marking (list of 0/1) to BDD
-        prime=False: use variables x_i
-        prime=True: use variables xp_i
-        """
-        result = self.bdd.true
+        expr = self.bdd.true
         vars_ = self.vars_prime if prime else self.vars
-        for i, v in enumerate(marking):
-            if v:
-                result &= vars_[i]
+        for i, val in enumerate(marking):
+            v = vars_[i]
+            if val == 0:
+                expr &= ~v
             else:
-                result &= ~vars_[i]
-        return result
+                expr &= v
+        return expr
 
     def build_transition_relation(self):
         R = self.bdd.false
-
+        
         for t in self.net.transitions:
             cond_pre = self.bdd.true
             for p in t.pre:
                 cond_pre &= self.vars[p]
 
-            eqs = self.bdd.true
-            handled = [False] * self.n
+            affected_places = set(t.pre) | set(t.post)
+            changes = self.bdd.true
+            
+            for p in affected_places:
+                if p in t.post:
+                    changes &= self.vars_prime[p] 
+                elif p in t.pre:
+                    changes &= ~self.vars_prime[p]
 
-            for p in t.pre:
-                eqs &= ~self.vars_prime[p]
-                handled[p] = True
-
-            for p in t.post:
-                eqs &= self.vars_prime[p]
-                handled[p] = True
-
+            frame = self.bdd.true
             for i in range(self.n):
-                if handled[i]:
-                    continue
-                x  = self.vars[i]
-                xp = self.vars_prime[i]
-                eqs &= ((~xp | x) & (~x | xp))
+                if i not in affected_places:
+                    frame &= self.identity_pairs[i]
 
-            Rt = cond_pre & eqs
+            Rt = cond_pre & changes & frame
             R |= Rt
 
         return R
 
     def compute_reachable_bdd(self):
-        """
-        Compute reachable markings as BDD:
-        S_{k+1}(x) = S_k(x) ∪ Post(S_k)(x)
-                   = S_k(x) ∪ ∃x. ( S_k(x) ∧ R(x,x') )[x'→x]
-        """
         S = self.marking_to_bdd(self.net.initMarking)
-
         quant_vars = {f"x{i}" for i in range(self.n)}
+        
+        rename_map = {f"xp{i}": f"x{i}" for i in range(self.n)}
 
+        iter_count = 0
         while True:
-            tmp = S & self.relR
-
-            img = self.bdd.exist(quant_vars, tmp)
-
+            iter_count += 1
             
-            rename = {f"xp{i}": f"x{i}" for i in range(self.n)}
-            img2 = self.bdd.let(rename, img)
+            trans_potential = S & self.relR
 
-            Snew = S | img2
+            img_prime = self.bdd.exist(quant_vars, trans_potential)
+
+            img = self.bdd.let(rename_map, img_prime)
+
+            Snew = S | img
 
             if Snew == S:
                 return Snew
-
             S = Snew
 
-    def enumerate_markings(self, bdd_node, limit=1_000_000):
-        """
-        Enumerate markings satisfying the BDD node (as list of 0/1).
-        Use self.bdd.pick(...) to iteratively extract solutions.
-        """
+    def enumerate_markings(self, bdd_node, limit=100_000):
         out = []
-        u = bdd_node
-
-        while u != self.bdd.false and len(out) < limit:
-            model = self.bdd.pick(u)
-            if model is None:
+        for model in self.bdd.pick_iter(bdd_node):
+            if len(out) >= limit:
                 break
-
-            m = [model.get(f"x{i}", 0) for i in range(self.n)]
-            out.append(m)
-
-            cube = self.bdd.true
+            
+            m = [0] * self.n
             for i in range(self.n):
-                var_name = f"x{i}"
-                val = model.get(var_name, 0)
-                v = self.bdd.var(var_name)
-                cube &= v if val else ~v
-
-            u = u & ~cube
-
-        if len(out) >= limit:
-            print("[Warning] Reachability enumeration capped")
-
+                val = model.get(f"x{i}", 0)
+                m[i] = int(val)
+            out.append(m)
         return out
 
 

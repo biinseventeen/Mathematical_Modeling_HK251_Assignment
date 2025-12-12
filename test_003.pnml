@@ -33,5 +33,7 @@
     <!-- t2: p1 -> p2 -->
     <arc id="a4" source="p1" target="t2" />
     <arc id="a5" source="t2" target="p2" />
+
+    <!--Simple Cycle-->
   </net>
 </pnml>

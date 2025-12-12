@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pnml>
+  <net id="net_explosion" type="http://www.pnml.org/version-2009/grammar/ptnet">
+    
+    <place id="p1_on">
+      <name><text>p1_on</text></name>
+      <initialMarking><text>1</text></initialMarking>
+    </place>
+    <place id="p1_off">
+      <name><text>p1_off</text></name>
+    </place>
+    <transition id="t1">
+      <name><text>t1</text></name>
+    </transition>
+    <arc id="a1_1" source="p1_on" target="t1"/>
+    <arc id="a1_2" source="t1" target="p1_off"/>
+
+    <place id="p2_on">
+      <name><text>p2_on</text></name>
+      <initialMarking><text>1</text></initialMarking>
+    </place>
+    <place id="p2_off">
+      <name><text>p2_off</text></name>
+    </place>
+    <transition id="t2">
+      <name><text>t2</text></name>
+    </transition>
+    <arc id="a2_1" source="p2_on" target="t2"/>
+    <arc id="a2_2" source="t2" target="p2_off"/>
+
+    <place id="p3_on">
+      <name><text>p3_on</text></name>
+      <initialMarking><text>1</text></initialMarking>
+    </place>
+    <place id="p3_off">
+      <name><text>p3_off</text></name>
+    </place>
+    <transition id="t3">
+      <name><text>t3</text></name>
+    </transition>
+    <arc id="a3_1" source="p3_on" target="t3"/>
+    <arc id="a3_2" source="t3" target="p3_off"/>
+
+    <place id="p4_on">
+      <name><text>p4_on</text></name>
+      <initialMarking><text>1</text></initialMarking>
+    </place>
+    <place id="p4_off">
+      <name><text>p4_off</text></name>
+    </place>
+    <transition id="t4">
+      <name><text>t4</text></name>
+    </transition>
+    <arc id="a4_1" source="p4_on" target="t4"/>
+    <arc id="a4_2" source="t4" target="p4_off"/>
+
+    <place id="p5_on">
+      <name><text>p5_on</text></name>
+      <initialMarking><text>1</text></initialMarking>
+    </place>
+    <place id="p5_off">
+      <name><text>p5_off</text></name>
+    </place>
+    <transition id="t5">
+      <name><text>t5</text></name>
+    </transition>
+    <arc id="a5_1" source="p5_on" target="t5"/>
+    <arc id="a5_2" source="t5" target="p5_off"/>
+
+    <place id="p6_on">
+      <name><text>p6_on</text></name>
+      <initialMarking><text>1</text></initialMarking>
+    </place>
+    <place id="p6_off">
+      <name><text>p6_off</text></name>
+    </place>
+    <transition id="t6">
+      <name><text>t6</text></name>
+    </transition>
+    <arc id="a6_1" source="p6_on" target="t6"/>
+    <arc id="a6_2" source="t6" target="p6_off"/>
+
+    <place id="p7_on">
+      <name><text>p7_on</text></name>
+      <initialMarking><text>1</text></initialMarking>
+    </place>
+    <place id="p7_off">
+      <name><text>p7_off</text></name>
+    </place>
+    <transition id="t7">
+      <name><text>t7</text></name>
+    </transition>
+    <arc id="a7_1" source="p7_on" target="t7"/>
+    <arc id="a7_2" source="t7" target="p7_off"/>
+
+    <place id="p8_on">
+      <name><text>p8_on</text></name>
+      <initialMarking><text>1</text></initialMarking>
+    </place>
+    <place id="p8_off">
+      <name><text>p8_off</text></name>
+    </place>
+    <transition id="t8">
+      <name><text>t8</text></name>
+    </transition>
+    <arc id="a8_1" source="p8_on" target="t8"/>
+    <arc id="a8_2" source="t8" target="p8_off"/>
+
+    <place id="p9_on">
+      <name><text>p9_on</text></name>
+      <initialMarking><text>1</text></initialMarking>
+    </place>
+    <place id="p9_off">
+      <name><text>p9_off</text></name>
+    </place>
+    <transition id="t9">
+      <name><text>t9</text></name>
+    </transition>
+    <arc id="a9_1" source="p9_on" target="t9"/>
+    <arc id="a9_2" source="t9" target="p9_off"/>
+
+    <place id="p10_on">
+      <name><text>p10_on</text></name>
+      <initialMarking><text>1</text></initialMarking>
+    </place>
+    <place id="p10_off">
+      <name><text>p10_off</text></name>
+    </place>
+    <transition id="t10">
+      <name><text>t10</text></name>
+    </transition>
+    <arc id="a10_1" source="p10_on" target="t10"/>
+    <arc id="a10_2" source="t10" target="p10_off"/>
+
+    <place id="p11_on">
+      <name><text>p11_on</text></name>
+      <initialMarking><text>1</text></initialMarking>
+    </place>
+    <place id="p11_off">
+      <name><text>p11_off</text></name>
+    </place>
+    <transition id="t11">
+      <name><text>t11</text></name>
+    </transition>
+    <arc id="a11_1" source="p11_on" target="t11"/>
+    <arc id="a11_2" source="t11" target="p11_off"/>
+
+    <place id="p12_on">
+      <name><text>p12_on</text></name>
+      <initialMarking><text>1</text></initialMarking>
+    </place>
+    <place id="p12_off">
+      <name><text>p12_off</text></name>
+    </place>
+    <transition id="t12">
+      <name><text>t12</text></name>
+    </transition>
+    <arc id="a12_1" source="p12_on" target="t12"/>
+    <arc id="a12_2" source="t12" target="p12_off"/>
+    
+    <!--test case to show that when state explosion happens, BDDs proves to be more effective than BFS-->
+  </net>
+</pnml>

@@ -108,7 +108,6 @@ def main():
 
     print()
 
-    # (Tuỳ chọn) So sánh với version quét thường (scan) để kiểm tra chéo
     print("=== Task 5 (check): Scan all reachable markings ===")
     found2, best_marking2, best_value2, scan_time = optimizer.optimize_scan()
     if found2:
