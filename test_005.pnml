@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <pnml>
+<<<<<<< HEAD
   <net id="net5" type="http://www.pnml.org/version-2009/grammar/ptnet">
+=======
+  <net id="net2" type="http://www.pnml.org/version-2009/grammar/ptnet">
+>>>>>>> be84a752c9c47fc1ba480bef35e03fbe44a88a79
     <place id="p0">
       <name><text>p0</text></name>
       <initialMarking><text>1</text></initialMarking>
@@ -55,7 +59,10 @@
     <arc id="a8" source="p3" target="t3" />
     <arc id="a9" source="p4" target="t3" />
     <arc id="b0" source="t3" target="p5" />
+<<<<<<< HEAD
 
     <!--A more complex petri-net, can cause deadlock if choose the wrong sequence-->
+=======
+>>>>>>> be84a752c9c47fc1ba480bef35e03fbe44a88a79
   </net>
 </pnml>
